@@ -23,7 +23,10 @@ function Calculator() {
         return;
       }
 
-      
+      function evaluate(expression) {
+        return eval(expression);  
+      }
+
       const result = evaluate(input);
 
       if (result === Infinity) {
