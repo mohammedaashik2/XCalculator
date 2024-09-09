@@ -3,7 +3,8 @@ import { evaluate as mathEvaluate } from 'mathjs';
 import './Calculator.css';
 
 function Calculator() {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState(''); // For numbers and expressions
+  const [result, setResult] = useState(''); // For the calculated result
   const [error, setError] = useState(false);
 
   const handleClick = (value) => {
@@ -13,34 +14,41 @@ function Calculator() {
 
   const clearInput = () => {
     setInput('');
+    setResult('');
     setError(false);
   };
 
   const calculateResult = () => {
     try {
       if (input.trim() === '') {
-        setInput('Error');
+        setResult('Error');
         return;
       }
 
-      const result = mathEvaluate(input); 
+      const evaluatedResult = mathEvaluate(input); 
 
-      if (result === Infinity) {
-        setInput('Infinity');
-      } else if (isNaN(result)) {
-        setInput('NaN');
+      if (evaluatedResult === Infinity) {
+        setResult('Infinity');
+      } else if (isNaN(evaluatedResult)) {
+        setResult('NaN');
       } else {
-        setInput(result.toString());
+        setResult(evaluatedResult.toString());
       }
     } catch (e) {
-      setInput('Error');
+      setResult('Error');
     }
   };
 
   return (
     <div className="calculator-container">
       <h1>React Calculator</h1>
+  
       <input type="text" value={input} readOnly className="inputField" />
+      
+      <div className="resultField">
+        {result && <p>{result}</p>}
+      </div>
+
       <div className="calculator-buttons">
         <button onClick={() => handleClick('7')}>7</button>
         <button onClick={() => handleClick('8')}>8</button>
@@ -67,4 +75,3 @@ function Calculator() {
 }
 
 export default Calculator;
-
