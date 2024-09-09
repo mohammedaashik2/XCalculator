@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { evaluate } from 'mathjs'; 
 import './Calculator.css';
 
 function Calculator() {
@@ -6,7 +7,7 @@ function Calculator() {
   const [error, setError] = useState(false);
 
   const handleClick = (value) => {
-    setError(false);  
+    setError(false);
     setInput(input + value);
   };
 
@@ -18,23 +19,22 @@ function Calculator() {
   const calculateResult = () => {
     try {
       if (input.trim() === '') {
-        setError(true); 
-        return setInput('Error');
+        setInput('Error');
+        return;
       }
 
-     
-      const result = new Function(`return ${input}`)();
+      
+      const result = evaluate(input);
 
       if (result === Infinity) {
         setInput('Infinity');
       } else if (isNaN(result)) {
-        setInput('NaN');  
+        setInput('NaN');
       } else {
         setInput(result.toString());
       }
-    } catch (error) {
-      setInput('Error'); 
-      setError(true);
+    } catch {
+      setInput('Error');
     }
   };
 
