@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { evaluate } from 'mathjs'; 
+import { evaluate as mathEvaluate } from 'mathjs'; 
 import './Calculator.css';
 
 function Calculator() {
@@ -23,11 +23,7 @@ function Calculator() {
         return;
       }
 
-      function evaluate(expression) {
-        return eval(expression);  
-      }
-
-      const result = evaluate(input);
+      const result = mathEvaluate(input); 
 
       if (result === Infinity) {
         setInput('Infinity');
@@ -36,7 +32,7 @@ function Calculator() {
       } else {
         setInput(result.toString());
       }
-    } catch {
+    } catch (e) {
       setInput('Error');
     }
   };
@@ -71,3 +67,4 @@ function Calculator() {
 }
 
 export default Calculator;
+
